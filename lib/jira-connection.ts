@@ -1,10 +1,14 @@
 import { find } from "lodash";
-import type { Version3Client } from "jira.js";
+import { Version2Models, type Version3Client } from "jira.js";
 import type { PluginConfig, GenerateNotesContext } from "./types";
-import type { Fields, Version } from "jira.js/out/version3/models";
-import type { EditIssue } from "jira.js/out/version3/parameters";
+import type { Fields, FixVersion, Version } from "jira.js/out/version3/models";
+import type {
+  EditIssue,
+  UpdateVersion,
+  CreateVersion,
+} from "jira.js/out/version3/parameters";
 
-export async function findOrCreateVersion(
+export async function createOrUpdateVersion(
   config: PluginConfig,
   context: GenerateNotesContext,
   jira: Version3Client,
@@ -13,45 +17,73 @@ export async function findOrCreateVersion(
   description: string,
 ): Promise<Version> {
   const remoteProject = await jira.projects.getProject(projectIdOrKey);
-  context.logger.info(`Looking for version with name '${name}'`);
+  context.logger.info(`Looking for release with name '${name}'`);
   const existing = find(remoteProject.versions, { name });
-  if (existing) {
-    context.logger.info(`Found existing release '${existing.id}'`);
-    return existing;
-  }
+  context.logger.info(
+    existing
+      ? `Found existing release '${existing.id}'`
+      : "No existing release found, creating new",
+  );
 
-  context.logger.info("No existing release found, creating new");
-
-  let newVersion: Version;
   if (config.dryRun) {
     context.logger.info("dry-run: making a fake release");
-    newVersion = {
+    return {
       name,
       id: "dry_run_id",
     };
+  }
+
+  let newVersion: Version;
+  // If not updating existing releases, return the found version
+  if (existing) {
+    if (!config.updateExistingRelease) return existing;
+
+    newVersion = {
+      id: existing.id,
+      projectId: existing.projectId,
+    };
   } else {
-    const descriptionText = description || "";
-    const newVersionConfig: Version = {
+    newVersion = {
       name,
       projectId: Number.parseInt(remoteProject.id, 10),
-      description: descriptionText,
-      released: Boolean(config.released),
+      description: description || "",
     };
-    if (config.setReleaseDate) {
-      newVersionConfig.releaseDate = new Date().toISOString();
-    }
-    try {
-      newVersion = await jira.projectVersions.createVersion(newVersionConfig);
-    } catch (error) {
-      newVersion = {};
-      context.logger.info(
-        `Failed to create new release '${newVersionConfig.name}'`,
-      );
-      throw new Error(`Failure to create new version: ${error}`);
-    }
   }
-  context.logger.info(`Made new release '${newVersion.id}'`);
-  return newVersion;
+
+  // Set properties for the version based on the config
+  const now = new Date().toISOString();
+  if (config.setReleaseDate && !existing?.releaseDate) {
+    newVersion.releaseDate = now;
+  }
+  if (config.setStartDate && !existing?.startDate) {
+    newVersion.startDate = now;
+  }
+  if (config.released && !existing?.released) {
+    newVersion.released = true;
+  }
+
+  // Update or create the version in Jira
+  let savedVersion: Version = {};
+  const action = existing ? "update" : "create";
+  try {
+    if (existing) {
+      savedVersion = await jira.projectVersions.updateVersion(
+        newVersion as UpdateVersion,
+      );
+    } else {
+      savedVersion = await jira.projectVersions.createVersion(
+        newVersion as CreateVersion,
+      );
+    }
+    context.logger.info(
+      `Successfully ${action}d release: '${savedVersion.id}'`,
+    );
+  } catch (error) {
+    context.logger.info(`Failed to ${action} release: '${newVersion.name}'`);
+    throw new Error(`Failure to ${action} release: ${error}`);
+  }
+
+  return savedVersion;
 }
 
 export async function editIssueFixVersions(
@@ -64,24 +96,29 @@ export async function editIssueFixVersions(
   try {
     context.logger.info(`Adding issue ${issueKey} to '${newVersion.name}'`);
     if (!config.dryRun) {
-      const fixFieldUpdate: Partial<Fields> = {
-        fixVersions: [
-          {
-            id: newVersion.id || "",
-            name: newVersion.name || "",
-            self: newVersion.self || "",
-            description: newVersion.description || "",
-            archived: newVersion.archived || false,
-            released: newVersion.released || false,
-          },
-        ],
+      const fixFieldUpdate: FixVersion = {
+        id: newVersion.id || "",
+        name: newVersion.name || "",
+        self: newVersion.self || "",
+        description: newVersion.description || "",
+        archived: newVersion.archived || false,
+        released: newVersion.released || false,
       };
       const issueUpdate: EditIssue = {
         issueIdOrKey: issueKey,
-        fields: {
-          ...fixFieldUpdate,
-        },
       };
+
+      // Append fix version if configured to do so, otherwise replace it
+      if (config.appendFixVersion) {
+        issueUpdate.update = {
+          fixVersions: [{ add: fixFieldUpdate }],
+        };
+      } else {
+        issueUpdate.fields = {
+          fixVersions: [fixFieldUpdate],
+        };
+      }
+
       await jira.issues.editIssue(issueUpdate);
     }
   } catch (err) {

@@ -86,21 +86,49 @@ export interface Config {
 
   /**
    * The number of maximum parallel network calls, default 10
+   * 
+   * @default 10
    */
   networkConcurrency?: number;
 
   /**
    * indicates if a new release created in jira should be set as released
+   * 
+   * @default false
    */
   released?: boolean;
   /**
-   * include the release date when creating a release in jira
+   * set the release date to today's date when creating a release in jira
+   * 
+   * @default false
    */
   setReleaseDate?: boolean;
   /**
+   * set the start date to today's date when creating a release in jira
+   * 
+   * @default false
+   */
+  setStartDate?: boolean;
+  /**
    * ignore ticket numbers in the branch name
+   * 
+   * @default false
    */
   disableBranchFiltering?: boolean;
+  /**
+   * indicates if the new release should be appended to the 'Fix Versions'
+   * in jira tickets, or replace them
+   * 
+   * @default false
+   */
+  appendFixVersion?: boolean;
+  /**
+   * indicates if a pre-existing jira release should be updated with a 
+   * start date, release date and released status
+   * 
+   * @default false
+   */
+  updateExistingRelease?: boolean;
 }
 ```
 

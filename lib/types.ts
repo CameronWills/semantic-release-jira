@@ -107,6 +107,8 @@ export interface PluginConfig extends BaseConfig {
 
   /**
    * The number of maximum parallel network calls, default 10
+   *
+   * @default 10
    */
   networkConcurrency?: number;
 
@@ -116,10 +118,34 @@ export interface PluginConfig extends BaseConfig {
   released?: boolean;
   /**
    * include the release date when creating a release in jira
+   *
+   * @default false
    */
   setReleaseDate?: boolean;
   /**
+   * set the start date to today when creating a release in jira
+   *
+   * @default false
+   */
+  setStartDate?: boolean;
+  /**
    * ignore ticket numbers in the branch name
+   *
+   * @default false
    */
   disableBranchFiltering?: boolean;
+  /**
+   * indicates if the new release should be added to existing fix versions
+   * in jira tickets
+   *
+   * @default false
+   */
+  appendFixVersion?: boolean;
+  /**
+   * indicates if pre-existing jira release should be updated with a
+   * start date, release date and released status
+   *
+   * @default false
+   */
+  updateExistingRelease?: boolean;
 }

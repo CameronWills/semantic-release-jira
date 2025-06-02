@@ -8,7 +8,7 @@ import {
   type PluginConfig,
 } from "./types";
 import { escapeRegExp } from "./util";
-import { editIssueFixVersions, findOrCreateVersion } from "./jira-connection";
+import { editIssueFixVersions, createOrUpdateVersion } from "./jira-connection";
 
 export function getTickets(
   config: PluginConfig,
@@ -82,7 +82,7 @@ export async function success(
 
   const jiraClient = createClient(config, context);
   const projectFound = await jiraClient.projects.getProject(config.projectId);
-  const releasedVersion = await findOrCreateVersion(
+  const releasedVersion = await createOrUpdateVersion(
     config,
     context,
     jiraClient,
