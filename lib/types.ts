@@ -57,7 +57,7 @@ export interface BaseConfig {
 
 export const DEFAULT_VERSION_TEMPLATE = "v${version}";
 export const DEFAULT_RELEASE_DESCRIPTION_TEMPLATE =
-  "Automated release with semantic-release-jira-releases-modern";
+  "Automated release with semantic-release-jira";
 
 export interface PluginConfig extends BaseConfig {
   /**
@@ -101,7 +101,7 @@ export interface PluginConfig extends BaseConfig {
    *      notes: The full release notes: This may be very large
    *             Only use it if you have very small releases
    *
-   * @default `Automated release with semantic-release-jira-releases-modern`
+   * @default `Automated release with semantic-release-jira`
    */
   releaseDescriptionTemplate?: string;
 

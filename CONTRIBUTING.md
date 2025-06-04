@@ -49,14 +49,7 @@
 - This project uses [Biome](https://biomejs.dev/) for formatting and linting. Run `yarn format` before committing.
 - TypeScript is used throughout the codebase. Please follow existing patterns and types.
 
-## Reporting Issues
-
-If you find a bug or have a feature request, please [open an issue](https://github.com/aechweeks/semantic-release-jira-releases-modern/issues) and provide as much detail as possible.
-
 ## License
 
 By contributing, you agree that your contributions will be licensed under the [MIT License](LICENSE).
 
----
-
-Thank you for helping make **semantic-release-jira-releases-modern** better!

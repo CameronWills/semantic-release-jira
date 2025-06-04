@@ -77,12 +77,17 @@ export async function verifyConditions(
     );
   }
 
-  if (!context.env.JIRA_USER) {
-    throw new SemanticReleaseError("JIRA_USER must be a string");
+  if (!context.env.JIRA_AUTH) {
+    throw new SemanticReleaseError("JIRA_AUTH must be an environment variable");
   }
-  if (!context.env.JIRA_TOKEN) {
-    throw new SemanticReleaseError("JIRA_TOKEN must be a string");
+
+  const auth = atob(context.env.JIRA_AUTH).split(":");
+  if (!auth || auth.length !== 2) {
+    throw new Error(
+      "JIRA_AUTH value invalid. It should be in base64 format 'email:apiToken'.",
+    );
   }
+
   const jira = createClient(config, context);
   await jira.projects.getProject({ projectIdOrKey: config.projectId });
 }

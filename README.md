@@ -1,20 +1,20 @@
-# semantic-release-jira-releases-modern
+# @cameronwills/semantic-release-jira
 
 [**semantic-release**](https://github.com/semantic-release/semantic-release) plugin to publish a jira release.
 
-[![npm latest version](https://img.shields.io/npm/v/semantic-release-jira-releases-modern/latest.svg)](https://www.npmjs.com/package/semantic-release-jira-releases-modern)
+[![npm latest version](https://img.shields.io/npm/v/@cameronwills/semantic-release-jira/latest.svg)](https://www.npmjs.com/package/@cameronwills/semantic-release-jira)
 
 
 | Step               | Description                                                                                                                                   |
 |--------------------|----------------------------------------------------------------------------|
-| `verifyConditions` | Validate the config options and check for a `JIRA_USER,JIRA_TOKEN` in the environment |
+| `verifyConditions` | Validate the config options and check for a `JIRA_AUTH` in the environment |
 | `sucess`           | Find all tickets from commits and add them to a new release on JIRA        |
 
 ## Install
 
 ```bash
-$ npm install --save-dev semantic-release-jira-releases-modern
-$ yarn add --dev semantic-release-jira-releases-modern
+$ npm install --save-dev @cameronwills/semantic-release-jira
+$ yarn add --dev @cameronwills/semantic-release-jira
 ```
 
 ### Configuration
@@ -25,7 +25,7 @@ The plugin should be added to your config
     "@semantic-release/commit-analyzer",
     "@semantic-release/release-notes-generator",
     "@semantic-release/git",
-    ["semantic-release-jira-releases-modern", {
+    ["@cameronwills/semantic-release-jira", {
       "projectId": "UH",
       "releaseNameTemplate": "Test v${version}",
       "jiraHost": "your-company.atlassian.net",

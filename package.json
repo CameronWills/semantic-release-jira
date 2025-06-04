@@ -1,10 +1,10 @@
 {
-  "name": "semantic-release-jira-releases-modern",
+  "name": "@cameronwills/semantic-release-jira",
   "version": "1.2.0",
   "packageManager": "yarn@4.1.1",
   "main": "./dist/index.js",
   "types": "./lib/index.ts",
-  "repository": "https://github.com/aechweeks/semantic-release-jira-releases-modern",
+  "repository": "https://github.com/CameronWills/semantic-release-jira",
   "license": "MIT",
   "files": [
     "lib/**/*",

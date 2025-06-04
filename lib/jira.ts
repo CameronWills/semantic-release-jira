@@ -5,12 +5,14 @@ export function createClient(
   config: PluginConfig,
   context: PluginContext,
 ): Version3Client {
+  const auth = atob(context.env.JIRA_AUTH).split(":");
+
   return new Version3Client({
     host: config.jiraHost,
     authentication: {
       basic: {
-        email: context.env.JIRA_USER || "",
-        apiToken: context.env.JIRA_TOKEN || "",
+        email: auth[0] || "",
+        apiToken: auth[1] || "",
       },
     },
   });

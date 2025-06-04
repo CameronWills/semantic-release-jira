@@ -79,7 +79,7 @@ export async function createOrUpdateVersion(
       `Successfully ${action}d release: '${savedVersion.id}'`,
     );
   } catch (error) {
-    context.logger.info(`Failed to ${action} release: '${newVersion.name}'`);
+    context.logger.info(`Error: failed to ${action} release: '${newVersion.name || existing?.name}'`);
     throw new Error(`Failure to ${action} release: ${error}`);
   }
 
