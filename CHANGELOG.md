@@ -1,3 +1,18 @@
+# [1.3.0](https://github.com/CameronWills/semantic-release-jira/compare/v1.2.0...v1.3.0) (2025-06-04)
+
+
+### Bug Fixes
+
+* linting error ([a55fcce](https://github.com/CameronWills/semantic-release-jira/commit/a55fccedb13f8f3f8e3a6ce226a23f3a0fe3a082))
+* making package public for publish ([95307f4](https://github.com/CameronWills/semantic-release-jira/commit/95307f414c566b9e6e7d01bbef90191bf64916d4))
+* updates to package name in yarn lock ([2b4fcbd](https://github.com/CameronWills/semantic-release-jira/commit/2b4fcbd654761d1c64c5d5b17b864327f15c8fc4))
+
+
+### Features
+
+* adding extra options to support appending fix versions and updating an existing jira release if one already exists. ([d0b9b8e](https://github.com/CameronWills/semantic-release-jira/commit/d0b9b8e4696bfb314f648ce04aa8ca20ee66510a))
+* renaming package before publish and refactor of authentication env variable ([bfcec02](https://github.com/CameronWills/semantic-release-jira/commit/bfcec0270413e56f0ba58097f5a4452058870a4a))
+
 # [1.2.0](https://github.com/aechweeks/semantic-release-jira-releases-modern/compare/v1.1.0...v1.2.0) (2024-11-27)
 
 
