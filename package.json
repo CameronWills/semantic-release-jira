@@ -6,6 +6,9 @@
   "types": "./lib/index.ts",
   "repository": "https://github.com/CameronWills/semantic-release-jira",
   "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  },
   "files": [
     "lib/**/*",
     "dist/**/*"
