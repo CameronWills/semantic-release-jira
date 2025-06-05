@@ -25,6 +25,7 @@
     "jira.js": "4.0.2",
     "lodash": "4.17.21",
     "p-limit": "2.3.0",
+    "read-pkg": "^9.0.1",
     "tslib": "1.14.1"
   },
   "devDependencies": {

@@ -55,41 +55,26 @@ export interface BaseConfig {
   dryRun: boolean;
 }
 
-export const DEFAULT_VERSION_TEMPLATE = "v${version}";
+export const DEFAULT_VERSION_TEMPLATE = "${name} v${version}";
 export const DEFAULT_RELEASE_DESCRIPTION_TEMPLATE =
   "Automated release with semantic-release-jira";
 
 export interface PluginConfig extends BaseConfig {
   /**
-   * A domain of a jira instance ie: `your-company.atlassian.net`
+   * The domain of a jira instance ie: `your-company.atlassian.net`
    */
-  jiraHost: string;
-
-  /**
-   * A list of prefixes to match when looking for tickets in commits. Cannot be used together with ticketRegex.
-   *
-   * ie. ['TEST'] would match `TEST-123` and `TEST-456`
-   */
-  ticketPrefixes?: string[];
-
-  /**
-   * A unescaped regex to match tickets in commits (without slashes). Cannot be used together with ticketPrefixes.
-   *
-   * ie. [a-zA-Z]{4}-\d{3,5} would match any ticket with 3 letters a dash and 3 to 5 numbers, such as `TEST-456`, `TEST-5643` and `TEST-56432`
-   */
-  ticketRegex?: string;
+  jiraHost?: string;
 
   /**
    * The id or key for the project releases will be created in
    */
-  projectId: string;
+  projectId?: string;
 
   /**
-   * A lodash template with a single `version` variable
-   * defaults to `v${version}` which results in a version that is named like `v1.0.0`
-   * ex: `Semantic Release v${version}` results in `Semantic Release v1.0.0`
+   * A lodash template with a `version` variable, and a `name` variable taken from the package.json
+   * defaults to `${name} v${version}` which results in a version that is named like `my-package v1.0.0`
    *
-   * @default `v${version}`
+   * @default `${name} v${version}`
    */
   releaseNameTemplate?: string;
 
@@ -98,6 +83,7 @@ export interface PluginConfig extends BaseConfig {
    *
    * template variables:
    *    version: the sem-ver version ex.: 1.2.3
+   *       name: The package name from package.json
    *      notes: The full release notes: This may be very large
    *             Only use it if you have very small releases
    *

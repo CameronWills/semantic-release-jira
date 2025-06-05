@@ -8,7 +8,7 @@ export function createClient(
   const auth = atob(context.env.JIRA_AUTH).split(":");
 
   return new Version3Client({
-    host: config.jiraHost,
+    host: config.jiraHost || context.env.JIRA_HOST,
     authentication: {
       basic: {
         email: auth[0] || "",

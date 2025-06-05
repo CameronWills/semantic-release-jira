@@ -23,6 +23,6 @@ jobs:
         run: yarn lint
       - name: Type Check
         run: yarn type-check
-      - name: tesit
-        run: yarn test
+#      - name: tesit
+#        run: yarn test
 

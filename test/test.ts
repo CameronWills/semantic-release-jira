@@ -7,7 +7,7 @@ describe("Success tests", () => {
     it("should analyze tickets with one ticketPrefix", () => {
       const config = {
         ...pluginConfig,
-        ticketPrefixes: ["UH"],
+        projectId: "UH",
       } as PluginConfig;
       expect(getTickets(config, context)).toEqual(["UH-1258"]);
     });
@@ -15,7 +15,7 @@ describe("Success tests", () => {
     it("should get multiple tickets on the same commit", () => {
       const config = {
         ...pluginConfig,
-        ticketPrefixes: ["TEST"],
+        projectId: "TEST",
       } as PluginConfig;
       expect(getTickets(config, context)).toEqual([
         "TEST-345",
@@ -27,40 +27,10 @@ describe("Success tests", () => {
     it("should get multiple tickets on the same commit, ignoring branch instance", () => {
       const config = {
         ...pluginConfig,
-        ticketPrefixes: ["TEST"],
+        projectId: "TEST",
         disableBranchFiltering: true,
       } as PluginConfig;
       expect(getTickets(config, context)).toEqual(["TEST-123", "TEST-234"]);
-    });
-
-    it("should analyze tickets with many ticketPrefix", () => {
-      const config = {
-        ...pluginConfig,
-        ticketPrefixes: ["UH", "FIX"],
-      } as PluginConfig;
-      expect(getTickets(config, context)).toEqual([
-        "FIX-321",
-        "UH-1258",
-        "FIX-123",
-      ]);
-    });
-
-    it("should analyze tickets with ticketRegex", () => {
-      const ticketRegex = "[A-Za-z]+-\\d+";
-
-      const config: PluginConfig = {
-        ...pluginConfig,
-        ticketRegex,
-      } as PluginConfig;
-
-      expect(getTickets(config, context)).toEqual([
-        "TEST-345",
-        "FIX-321",
-        "UH-1258",
-        "FIX-123",
-        "TEST-123",
-        "TEST-234",
-      ]);
     });
   });
 });

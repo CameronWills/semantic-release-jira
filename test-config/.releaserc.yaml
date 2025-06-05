@@ -12,7 +12,3 @@ plugins:
       jiraHost: uphabit.atlassian.net
       released: true
       setReleaseDate: true
-      ticketPrefixes:
-        - TEST
-        - FIX
-        - UH

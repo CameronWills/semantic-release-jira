@@ -8,42 +8,15 @@ export async function verifyConditions(
 ): Promise<void> {
   const { networkConcurrency } = config;
 
-  if (typeof config.jiraHost !== "string") {
-    throw new SemanticReleaseError("config.jiraHost must be a string");
+  if (typeof config.jiraHost !== "string" && !context.env.JIRA_HOST) {
+    throw new SemanticReleaseError(
+      "config.jiraHost must be a string or JIRA_HOST environment variable must be set",
+    );
   }
   if (typeof config.projectId !== "string" && !context.env.JIRA_PROJECT_ID) {
-    throw new SemanticReleaseError("config.projectId must be a string or JIRA_PROJECT_ID environment variable must be set");
-  }
-
-  if (!config.ticketPrefixes && !config.ticketRegex) {
     throw new SemanticReleaseError(
-      "Either config.ticketPrefixes or config.ticketRegex must be passed",
+      "config.projectId must be a string or JIRA_PROJECT_ID environment variable must be set",
     );
-  }
-
-  if (config.ticketPrefixes && config.ticketRegex) {
-    throw new SemanticReleaseError(
-      "config.ticketPrefixes and config.ticketRegex cannot be passed at the same time",
-    );
-  }
-
-  if (config.ticketPrefixes) {
-    if (!Array.isArray(config.ticketPrefixes)) {
-      throw new SemanticReleaseError(
-        "config.ticketPrefixes must be an array of string",
-      );
-    }
-    for (const prefix of config.ticketPrefixes) {
-      if (typeof prefix !== "string") {
-        throw new SemanticReleaseError(
-          "config.ticketPrefixes must be an array of string",
-        );
-      }
-    }
-  }
-
-  if (config.ticketRegex && typeof config.ticketRegex !== "string") {
-    throw new SemanticReleaseError("config.ticketRegex must be an string");
   }
 
   if (config.releaseNameTemplate) {
@@ -89,5 +62,7 @@ export async function verifyConditions(
   }
 
   const jira = createClient(config, context);
-  await jira.projects.getProject({ projectIdOrKey: config.projectId || context.env.JIRA_PROJECT_ID });
+  await jira.projects.getProject({
+    projectIdOrKey: config.projectId || context.env.JIRA_PROJECT_ID,
+  });
 }
