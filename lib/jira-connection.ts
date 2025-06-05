@@ -36,7 +36,7 @@ export async function createOrUpdateVersion(
   let newVersion: Version;
   // If not updating existing releases, return the found version
   if (existing) {
-    if (!config.updateExistingRelease) return existing;
+    if (config.updateExistingRelease === false) return existing;
 
     newVersion = {
       id: existing.id,
@@ -111,20 +111,19 @@ export async function editIssueFixVersions(
       };
 
       // Append fix version if configured to do so, otherwise replace it
-      if (config.appendFixVersion) {
-        issueUpdate.update = {
-          fixVersions: [{ add: fixFieldUpdate }],
-        };
-      } else {
+      if (config.appendFixVersion === false) {
         issueUpdate.fields = {
           fixVersions: [fixFieldUpdate],
+        };
+      } else {
+        issueUpdate.update = {
+          fixVersions: [{ add: fixFieldUpdate }],
         };
       }
 
       await jira.issues.editIssue(issueUpdate);
     }
   } catch (err) {
-    context.logger.error(`Unable to update issue ${issueKey} error: ${err}`);
-    throw err;
+    context.logger.warn(`Unable to update issue ${issueKey} error: ${err}`);
   }
 }

@@ -7,7 +7,7 @@
 
 | Step               | Description                                                                                                                                   |
 |--------------------|----------------------------------------------------------------------------|
-| `verifyConditions` | Validate the config options and check for a `JIRA_AUTH` in the environment |
+| `verifyConditions` | Validate the config options and environment variables                      |
 | `sucess`           | Find all tickets from commits and add them to a new release on JIRA        |
 
 ## Install
@@ -17,7 +17,15 @@ $ npm install --save-dev @cameronwills/semantic-release-jira
 $ yarn add --dev @cameronwills/semantic-release-jira
 ```
 
-### Configuration
+## Configuration
+
+### Environment variables
+
+| Variable          | Description                                                         |
+| ----------------- | ------------------------------------------------------------------- |
+| `JIRA_AUTH`       | **Required.** The token used to authenticate with GitHub.           |
+| `JIRA_PROJECT_ID` | The Jira project ID / Key                                           |
+
 The plugin should be added to your config
 ```json
 {
@@ -59,9 +67,9 @@ export interface Config {
   ticketRegex?: string;
 
   /**
-   * The id or key for the project releases will be created in
+   * The id or key for the project releases will be created in. This overrides `JIRA_PROJECT_ID` environment variable when set.
    */
-  projectId: string;
+  projectId?: string;
 
   /**
    * A lodash template with a single `version` variable
@@ -119,14 +127,14 @@ export interface Config {
    * indicates if the new release should be appended to the 'Fix Versions'
    * in jira tickets, or replace them
    * 
-   * @default false
+   * @default true
    */
   appendFixVersion?: boolean;
   /**
    * indicates if a pre-existing jira release should be updated with a 
    * start date, release date and released status
    * 
-   * @default false
+   * @default true
    */
   updateExistingRelease?: boolean;
 }

@@ -81,7 +81,7 @@ export async function success(
   context.logger.info(`Using jira release '${newVersionName}'`);
 
   const jiraClient = createClient(config, context);
-  const projectFound = await jiraClient.projects.getProject(config.projectId);
+  const projectFound = await jiraClient.projects.getProject(config.projectId || context.env.JIRA_PROJECT_ID);
   const releasedVersion = await createOrUpdateVersion(
     config,
     context,

@@ -138,14 +138,14 @@ export interface PluginConfig extends BaseConfig {
    * indicates if the new release should be added to existing fix versions
    * in jira tickets
    *
-   * @default false
+   * @default true
    */
   appendFixVersion?: boolean;
   /**
    * indicates if pre-existing jira release should be updated with a
    * start date, release date and released status
    *
-   * @default false
+   * @default true
    */
   updateExistingRelease?: boolean;
 }

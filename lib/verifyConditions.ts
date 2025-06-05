@@ -11,8 +11,8 @@ export async function verifyConditions(
   if (typeof config.jiraHost !== "string") {
     throw new SemanticReleaseError("config.jiraHost must be a string");
   }
-  if (typeof config.projectId !== "string") {
-    throw new SemanticReleaseError("config.projectId must be a string");
+  if (typeof config.projectId !== "string" && !context.env.JIRA_PROJECT_ID) {
+    throw new SemanticReleaseError("config.projectId must be a string or JIRA_PROJECT_ID environment variable must be set");
   }
 
   if (!config.ticketPrefixes && !config.ticketRegex) {
@@ -89,5 +89,5 @@ export async function verifyConditions(
   }
 
   const jira = createClient(config, context);
-  await jira.projects.getProject({ projectIdOrKey: config.projectId });
+  await jira.projects.getProject({ projectIdOrKey: config.projectId || context.env.JIRA_PROJECT_ID });
 }
