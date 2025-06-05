@@ -1,3 +1,11 @@
+# [1.4.0](https://github.com/CameronWills/semantic-release-jira/compare/v1.3.0...v1.4.0) (2025-06-05)
+
+
+### Features
+
+* removed unused ticketPrefix and ticketRegex options. And added more settings loaded from environment variables. ([194926b](https://github.com/CameronWills/semantic-release-jira/commit/194926b463721dc7b493c44af8138e1850a7a6bf))
+* switching default value for appendFixVersion and updateExistingRelease. Adding support for the Jira project key to be imported from env variables. ([527fcc6](https://github.com/CameronWills/semantic-release-jira/commit/527fcc69c833d106ad746b2c947515a2181f67bd))
+
 # [1.3.0](https://github.com/CameronWills/semantic-release-jira/compare/v1.2.0...v1.3.0) (2025-06-04)
 
 

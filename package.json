@@ -1,6 +1,6 @@
 {
   "name": "@cameronwills/semantic-release-jira",
-  "version": "1.3.0",
+  "version": "1.4.0",
   "packageManager": "yarn@4.1.1",
   "main": "./dist/index.js",
   "types": "./lib/index.ts",
