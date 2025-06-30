@@ -1,12 +1,33 @@
-import { find } from "lodash";
-import { Version2Models, type Version3Client } from "jira.js";
-import type { PluginConfig, GenerateNotesContext } from "./types";
+import { find } from "lodash-es";
+import type {
+  PluginConfig,
+  GenerateNotesContext,
+  PluginContext,
+} from "./types.js";
+import { Version3Client } from "jira.js/out/version3/client/index.js";
 import type { Fields, FixVersion, Version } from "jira.js/out/version3/models";
 import type {
   EditIssue,
   UpdateVersion,
   CreateVersion,
 } from "jira.js/out/version3/parameters";
+
+export function createClient(
+  config: PluginConfig,
+  context: PluginContext,
+): Version3Client {
+  const auth = atob(context.env.JIRA_AUTH).split(":");
+
+  return new Version3Client({
+    host: config.jiraHost || context.env.JIRA_HOST,
+    authentication: {
+      basic: {
+        email: auth[0] || "",
+        apiToken: auth[1] || "",
+      },
+    },
+  });
+}
 
 export async function createOrUpdateVersion(
   config: PluginConfig,

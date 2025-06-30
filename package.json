@@ -1,6 +1,8 @@
 {
   "name": "@cameronwills/semantic-release-jira",
   "version": "1.4.0",
+  "type": "module",
+  "description": "A semantic-release plugin to create and publish a new Jira release, and update issues with the new release version.",
   "packageManager": "yarn@4.1.1",
   "main": "./dist/index.js",
   "types": "./lib/index.ts",
@@ -23,7 +25,7 @@
   "dependencies": {
     "@semantic-release/error": "2.2.0",
     "jira.js": "4.0.2",
-    "lodash": "4.17.21",
+    "lodash-es": "4.17.21",
     "p-limit": "2.3.0",
     "read-pkg": "^9.0.1",
     "tslib": "1.14.1"
@@ -36,7 +38,7 @@
     "@semantic-release/github": "11.0.1",
     "@semantic-release/npm": "12.0.1",
     "@types/jest": "29.5.14",
-    "@types/lodash": "4.17.13",
+    "@types/lodash-es": "^4",
     "@types/request": "2.48.12",
     "@types/semantic-release__error": "3.0.3",
     "@types/signale": "1.4.7",

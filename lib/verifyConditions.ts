@@ -1,6 +1,6 @@
 import SemanticReleaseError from "@semantic-release/error";
-import { createClient } from "./jira";
-import type { PluginConfig, PluginContext } from "./types";
+import { createClient } from "./jira-connection.js";
+import type { PluginConfig, PluginContext } from "./types.js";
 
 export async function verifyConditions(
   config: PluginConfig,

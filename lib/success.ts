@@ -1,15 +1,18 @@
-import * as _ from "lodash";
+import { template } from "lodash-es";
 import pLimit from "p-limit";
-import { createClient } from "./jira";
 import {
   DEFAULT_RELEASE_DESCRIPTION_TEMPLATE,
   DEFAULT_VERSION_TEMPLATE,
   type GenerateNotesContext,
   type PluginConfig,
-} from "./types";
+} from "./types.js";
 import { readPackage } from "read-pkg";
-import { escapeRegExp } from "./util";
-import { editIssueFixVersions, createOrUpdateVersion } from "./jira-connection";
+import { escapeRegExp } from "./util.js";
+import {
+  createClient,
+  editIssueFixVersions,
+  createOrUpdateVersion,
+} from "./jira-connection.js";
 
 export function getTickets(
   config: PluginConfig,
@@ -60,7 +63,7 @@ export async function success(
   const pack = await readPackage({ cwd: context.cwd });
   const name = pack.name || "";
 
-  const versionTemplate = _.template(
+  const versionTemplate = template(
     config.releaseNameTemplate ?? DEFAULT_VERSION_TEMPLATE,
   );
   const newVersionName = versionTemplate({
@@ -68,7 +71,7 @@ export async function success(
     name: name,
   });
 
-  const descriptionTemplate = _.template(
+  const descriptionTemplate = template(
     config.releaseDescriptionTemplate ?? DEFAULT_RELEASE_DESCRIPTION_TEMPLATE,
   );
   const newVersionDescription = descriptionTemplate({
