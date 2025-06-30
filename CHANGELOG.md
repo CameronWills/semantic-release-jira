@@ -1,3 +1,10 @@
+# [1.5.0](https://github.com/CameronWills/semantic-release-jira/compare/v1.4.0...v1.5.0) (2025-06-30)
+
+
+### Features
+
+* convert to esm format for node 18 support. Tests still failing. ([277f387](https://github.com/CameronWills/semantic-release-jira/commit/277f387c8be5a0be4a13f16ed10c82a067367afa))
+
 # [1.4.0](https://github.com/CameronWills/semantic-release-jira/compare/v1.3.0...v1.4.0) (2025-06-05)
 
 
