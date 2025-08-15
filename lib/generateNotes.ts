@@ -6,7 +6,7 @@ export async function generateNotes(
   config: PluginConfig,
   context: PluginContext,
 ): Promise<string> {
-  if (config.generateReleaseNotes == false) {
+  if (config.generateReleaseNotes === false) {
     return "";
   }
 

@@ -129,7 +129,7 @@ export interface PluginConfig extends BaseConfig {
    *
    * @default true
    */
-  
+
   updateExistingRelease?: boolean;
   /**
    * Indicates whether to add release notes into the rich-text body of the Jira release.
@@ -143,7 +143,7 @@ export interface PluginConfig extends BaseConfig {
   /**
    * Generates the release notes, replacing any Jira issue keys with links.
    * Replaces the need to have @semantic-release/release-notes-generator in plugins.
-   * 
+   *
    * @default true
    */
   generateReleaseNotes?: boolean;

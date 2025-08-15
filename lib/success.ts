@@ -1,9 +1,6 @@
 import { template } from "lodash-es";
 import pLimit from "p-limit";
-import {
-  type GenerateNotesContext,
-  type PluginConfig,
-} from "./types.js";
+import type { GenerateNotesContext, PluginConfig } from "./types.js";
 import { readPackage } from "read-pkg";
 import { escapeRegExp } from "./util.js";
 import {
@@ -12,7 +9,10 @@ import {
   createOrUpdateVersion,
   saveReleaseNotes,
 } from "./jira-connection.js";
-import { DEFAULT_RELEASE_DESCRIPTION_TEMPLATE, DEFAULT_VERSION_TEMPLATE } from "./constants.js";
+import {
+  DEFAULT_RELEASE_DESCRIPTION_TEMPLATE,
+  DEFAULT_VERSION_TEMPLATE,
+} from "./constants.js";
 
 export function getTickets(
   config: PluginConfig,
