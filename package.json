@@ -1,6 +1,6 @@
 {
   "name": "@cameronwills/semantic-release-jira",
-  "version": "1.5.0",
+  "version": "1.6.0",
   "type": "module",
   "description": "A semantic-release plugin to create and publish a new Jira release, and update issues with the new release version.",
   "packageManager": "yarn@4.1.1",

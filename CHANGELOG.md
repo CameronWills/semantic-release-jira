@@ -1,3 +1,19 @@
+# [1.6.0](https://github.com/CameronWills/semantic-release-jira/compare/v1.5.0...v1.6.0) (2025-08-15)
+
+
+### Bug Fixes
+
+* formatting changes ([5c28856](https://github.com/CameronWills/semantic-release-jira/commit/5c2885688af007a9a6fc9830f95d9254fc487602))
+* minor bug fixes ([aacbaff](https://github.com/CameronWills/semantic-release-jira/commit/aacbaffc05908b617ea631f7e79b148fc6c95973))
+* minor improvements and documentation ([3672c9b](https://github.com/CameronWills/semantic-release-jira/commit/3672c9bd1b9d259d8ee452323b73c337090ca347))
+
+
+### Features
+
+* some cleanup and moving constants into seperate file ([145918d](https://github.com/CameronWills/semantic-release-jira/commit/145918dd24956e98d2673e405b4630ea56d28dce))
+* work in progress on adding release notes into the body of the jira version. ([a2b2990](https://github.com/CameronWills/semantic-release-jira/commit/a2b2990a7d7f079fa9c8ca55751ddab802afb285))
+* work in progress on making graphQL call to update add the release notes ([d2750a7](https://github.com/CameronWills/semantic-release-jira/commit/d2750a78daf15f8207582b773b9a13f779cba999))
+
 # [1.5.0](https://github.com/CameronWills/semantic-release-jira/compare/v1.4.0...v1.5.0) (2025-06-30)
 
 
