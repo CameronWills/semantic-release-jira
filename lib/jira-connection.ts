@@ -1,4 +1,4 @@
-import { find } from "lodash-es";
+import { find, template } from "lodash-es";
 import type {
   PluginConfig,
   GenerateNotesContext,
@@ -11,6 +11,7 @@ import type {
   UpdateVersion,
   CreateVersion,
 } from "jira.js/out/version3/parameters";
+import { markdownToAdf } from "marklassian";
 
 export function createClient(
   config: PluginConfig,
@@ -107,6 +108,19 @@ export async function createOrUpdateVersion(
   }
 
   return savedVersion;
+}
+
+export async function saveReleaseNotes(
+  config: PluginConfig,
+  context: GenerateNotesContext,
+  versionId: string
+): Promise<void> {
+
+  let versionAri = template(config.versionAriTemplate)({ versionId });
+  let content = markdownToAdf(context.nextRelease.notes);
+
+  
+
 }
 
 export async function editIssueFixVersions(

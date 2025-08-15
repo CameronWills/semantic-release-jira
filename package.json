@@ -26,6 +26,7 @@
     "@semantic-release/error": "2.2.0",
     "jira.js": "4.0.2",
     "lodash-es": "4.17.21",
+    "marklassian": "^1.0.4",
     "p-limit": "2.3.0",
     "read-pkg": "^9.0.1",
     "tslib": "1.14.1"
