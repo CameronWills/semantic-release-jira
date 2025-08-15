@@ -55,10 +55,6 @@ export interface BaseConfig {
   dryRun: boolean;
 }
 
-export const DEFAULT_VERSION_TEMPLATE = "${name} v${version}";
-export const DEFAULT_RELEASE_DESCRIPTION_TEMPLATE =
-  "Automated release with semantic-release-jira";
-
 export interface PluginConfig extends BaseConfig {
   /**
    * The domain of a jira instance ie: `your-company.atlassian.net`
@@ -145,9 +141,17 @@ export interface PluginConfig extends BaseConfig {
   addReleaseNotes?: boolean;
 
   /**
-   * The regex pattern to match issue keys in release notes.
+   * Generates the release notes, replacing any Jira issue keys with links.
+   * Replaces the need to have @semantic-release/release-notes-generator in plugins.
+   * 
+   * @default true
+   */
+  generateReleaseNotes?: boolean;
+
+  /**
+   * The regex pattern to match Jira issue keys found in release notes, and replace them with links.
    *
-   * @default "[a-zA-Z][a-zA-Z0-9_]+-\d+"
+   * @default `[a-zA-Z][a-zA-Z0-9_]+-\d+`
    */
   releaseNotesIssueRegex?: string;
 }

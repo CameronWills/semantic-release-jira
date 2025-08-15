@@ -147,9 +147,17 @@ export interface Config {
   addReleaseNotes?: boolean;
 
   /**
-   * The regex pattern to match issue keys, in release notes only.
+   * Generates the release notes, replacing Jira issue keys with links.
+   * Use in place of the @semantic-release/release-notes-generator in plugins.
+   * 
+   * @default true
+   */
+  generateReleaseNotes?: boolean;
+
+  /**
+   * The regex pattern used to match Jira issue keys in the generated release notes.
    *
-   * @default "[a-zA-Z][a-zA-Z0-9_]+-\d+"
+   * @default `[a-zA-Z][a-zA-Z0-9_]+-\d+`
    */
   releaseNotesIssueRegex?: string;
 }

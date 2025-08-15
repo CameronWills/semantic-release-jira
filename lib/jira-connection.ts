@@ -12,6 +12,7 @@ import type {
   CreateVersion,
 } from "jira.js/out/version3/parameters";
 import { markdownToAdf } from "marklassian";
+import { JIRA_VERSION_ARI_TEMPLATE } from "./constants.js";
 
 export function createClient(
   config: PluginConfig,
@@ -145,9 +146,7 @@ export async function saveReleaseNotes(
     }
   `;
 
-  const idTemplate = template(
-    "ari:cloud:jira:${cloudId}:version/activation/${activationId}/${versionId}",
-  );
+  const idTemplate = template(JIRA_VERSION_ARI_TEMPLATE);
   const variables = {
     input: {
       id: idTemplate({
