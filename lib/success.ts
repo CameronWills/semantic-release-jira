@@ -42,7 +42,7 @@ export function getTickets(
       for (const match of matches) {
         tickets.add(match);
         context.logger.info(
-          `Found ticket ${matches} in commit: ${commit.commit.short}`,
+          `Found ticket ${match} in commit: ${commit.commit.short}`,
         );
       }
     }

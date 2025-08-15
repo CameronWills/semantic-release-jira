@@ -11,10 +11,13 @@ export async function generateNotes(
   }
 
   const notes = await generateReleaseNotes(config, context);
+  if (!notes) {
+    return "";
+  }
 
   const issueRegex = `(${config.releaseNotesIssueRegex || DEFAULT_JIRA_ISSUE_KEY_REGEX})`;
 
-  return notes?.replace(
+  return notes.replace(
     new RegExp(issueRegex, "g"),
     `[$1](${context.env.JIRA_HOST}/browse/$1)`,
   );
