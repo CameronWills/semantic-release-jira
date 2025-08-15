@@ -1,6 +1,6 @@
 # @cameronwills/semantic-release-jira
 
-A plugin to [**semantic-release**](https://github.com/semantic-release/semantic-release) to publish a new Jira 'release', and find Jira issue from the commits messages and add them to the new release on Jira.
+A plugin to [**semantic-release**](https://github.com/semantic-release/semantic-release) to publish a new release version in Jira, adding any Jira issues (work items) that were found in commit messages, to this new Jira release version. Plugin can also add the generated release notes into the rich-text body of the Jira release, including links to the Jira issues.
 
 [![npm latest version](https://img.shields.io/npm/v/@cameronwills/semantic-release-jira/latest.svg)](https://www.npmjs.com/package/@cameronwills/semantic-release-jira)
 
@@ -8,6 +8,7 @@ A plugin to [**semantic-release**](https://github.com/semantic-release/semantic-
 | Step               | Actions                                                                    |
 |--------------------|----------------------------------------------------------------------------|
 | `verifyConditions` | Validate the plugin config options and environment variables               |
+| `generateNotes`    | Optionally generates release notes as markdown with links to Jira issues   |
 | `success`          | Find all tickets from commits and add them to a new release on Jira        |
 
 ## Install
@@ -27,7 +28,7 @@ $ yarn add --dev @cameronwills/semantic-release-jira
 | `JIRA_PROJECT_ID`    | The Jira project key                                           |
 | `JIRA_HOST`          | The domain of your jira instance                               |
 | `JIRA_CLOUD_ID`      | The ID for your specific Atlassian domain (GUID). Optional.    |
-| `JIRA_ACTIVATION_ID` | Jira Activation ID for the Jira instance. Optional.            |
+| `JIRA_ACTIVATION_ID` | Jira Activation ID for the Jira instance (GUID). Optional.     |
 
 
 ### Plugin config
@@ -37,14 +38,14 @@ The plugin should be added to your config
 {
   "plugins": [
     "@semantic-release/commit-analyzer",
-    "@semantic-release/release-notes-generator",
     "@semantic-release/git",
     ["@cameronwills/semantic-release-jira", {
       "projectId": "UH",
       "releaseNameTemplate": "${name} v${version}",
       "jiraHost": "https://your-company.atlassian.net",
       "released": true,
-      "setReleaseDate": true
+      "setReleaseDate": true,
+      "generateReleaseNotes": true
     }]
   ]
 }
@@ -60,7 +61,7 @@ export interface Config {
 
   /**
    * The project key for the project that the releases will be created in. 
-   * Also used to search for matching tickets to be updated.
+   * Also used to search for matching Jira issues in commit messages that will be added to the release.
    * This overrides `JIRA_PROJECT_ID` environment variable when set.
    */
   projectId?: string;
@@ -94,35 +95,35 @@ export interface Config {
   networkConcurrency?: number;
 
   /**
-   * indicates if a new release created in jira should be set as released
+   * Indicates if a new release created in jira should be set as 'released' status
    * 
    * @default false
    */
   released?: boolean;
 
   /**
-   * set the release date to today's date when creating a release in jira
+   * Set the release date to today's date when creating a release in Jira
    * 
    * @default false
    */
   setReleaseDate?: boolean;
 
   /**
-   * set the start date to today's date when creating a release in jira
+   * Set the start date to today's date when creating a release in jira
    * 
    * @default false
    */
   setStartDate?: boolean;
 
   /**
-   * ignore ticket numbers in the branch name
+   * Ignore ticket numbers in the branch name
    * 
    * @default false
    */
   disableBranchFiltering?: boolean;
 
   /**
-   * indicates if the new release should be appended to the 'Fix Versions'
+   * Indicates if the new release should be appended to the 'Fix Versions'
    * in jira tickets, or replace them
    * 
    * @default true
@@ -139,18 +140,18 @@ export interface Config {
 
   /**
    * Indicates whether to add release notes into the rich-text body of the Jira release.
-   * This is updated through a separate GraphQL call to Jira, and requires the
+   * This is updated through a separate GraphQL API call to Jira, and requires the
    * `JIRA_CLOUD_ID` and `JIRA_ACTIVATION_ID` environment variables to be set.
    *
-   * @default true
+   * @default true when `JIRA_CLOUD_ID` and `JIRA_ACTIVATION_ID` environment variables are set, otherwise false.
    */
   addReleaseNotes?: boolean;
 
   /**
-   * Generates the release notes, replacing Jira issue keys with links.
-   * Use in place of the @semantic-release/release-notes-generator in plugins.
+   * Whether plugin should handle generating the release notes, replacing Jira issue keys with links.
+   * Use in place of the @semantic-release/release-notes-generator plugin.
    * 
-   * @default true
+   * @default false
    */
   generateReleaseNotes?: boolean;
 

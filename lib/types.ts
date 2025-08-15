@@ -136,7 +136,8 @@ export interface PluginConfig extends BaseConfig {
    * This is updated through a separate GraphQL call to Jira, requires the
    * `JIRA_CLOUD_ID` and `JIRA_ACTIVATION_ID` environment variables to be set.
    *
-   * @default true
+   * @default true when `JIRA_CLOUD_ID` and `JIRA_ACTIVATION_ID` environment variables are set,
+   * otherwise false.
    */
   addReleaseNotes?: boolean;
 
@@ -144,7 +145,7 @@ export interface PluginConfig extends BaseConfig {
    * Generates the release notes, replacing any Jira issue keys with links.
    * Replaces the need to have @semantic-release/release-notes-generator in plugins.
    *
-   * @default true
+   * @default false
    */
   generateReleaseNotes?: boolean;
 

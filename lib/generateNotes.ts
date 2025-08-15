@@ -6,10 +6,15 @@ export async function generateNotes(
   config: PluginConfig,
   context: PluginContext,
 ): Promise<string> {
-  if (config.generateReleaseNotes === false) {
+  // Only continue if config.generateReleaseNotes is true
+  if (config.generateReleaseNotes !== true) {
     return "";
   }
 
+  // Generate base release notes using @semantic-release/release-notes-generator
+  context.logger.info(
+    "Generating release notes using @semantic-release/release-notes-generator...",
+  );
   const notes = await generateReleaseNotes(config, context);
   if (!notes) {
     return "";

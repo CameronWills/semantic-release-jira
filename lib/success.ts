@@ -57,7 +57,7 @@ export async function success(
 ): Promise<void> {
   // Get the tickets from the branch and commits
   const tickets = getTickets(config, context);
-  context.logger.info(`Found ticket ${tickets.join(", ")}`);
+  context.logger.info(`Found tickets: ${tickets.join(", ")}`);
 
   // Get the package name from the package.json
   const pack = await readPackage({ cwd: context.cwd });
