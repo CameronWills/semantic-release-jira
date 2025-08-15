@@ -12,6 +12,7 @@ import {
   createClient,
   editIssueFixVersions,
   createOrUpdateVersion,
+  saveReleaseNotes,
 } from "./jira-connection.js";
 
 export function getTickets(
@@ -94,8 +95,12 @@ export async function success(
     newVersionName,
     newVersionDescription,
   );
-  const concurrentLimit = pLimit(config.networkConcurrency || 10);
 
+  if (config.addReleaseNotes !== false && releasedVersion.id) {
+    await saveReleaseNotes(config, context, releasedVersion.id);
+  }
+
+  const concurrentLimit = pLimit(config.networkConcurrency || 10);
   const editsModern = tickets.map((issueKey) =>
     concurrentLimit(() =>
       editIssueFixVersions(

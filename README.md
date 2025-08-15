@@ -21,11 +21,13 @@ $ yarn add --dev @cameronwills/semantic-release-jira
 
 ### Environment variables
 
-| Variable          | Description                                                    |
-| ----------------- | -------------------------------------------------------------- |
-| `JIRA_AUTH`       | **Required.** The token used to authenticate with GitHub.      |
-| `JIRA_PROJECT_ID` | The Jira project key                                           |
-| `JIRA_HOST      ` | The domain of your jira instance                               |
+| Variable             | Description                                                    |
+| -------------------- | -------------------------------------------------------------- |
+| `JIRA_AUTH`          | **Required.** The token used to authenticate with GitHub.      |
+| `JIRA_PROJECT_ID`    | The Jira project key                                           |
+| `JIRA_HOST`          | The domain of your jira instance                               |
+| `JIRA_CLOUD_ID`      | The ID for your specific Atlassian domain (GUID). Optional.    |
+| `JIRA_ACTIVATION_ID` | Jira Activation ID for the Jira instance. Optional.            |
 
 
 ### Plugin config
@@ -97,24 +99,28 @@ export interface Config {
    * @default false
    */
   released?: boolean;
+
   /**
    * set the release date to today's date when creating a release in jira
    * 
    * @default false
    */
   setReleaseDate?: boolean;
+
   /**
    * set the start date to today's date when creating a release in jira
    * 
    * @default false
    */
   setStartDate?: boolean;
+
   /**
    * ignore ticket numbers in the branch name
    * 
    * @default false
    */
   disableBranchFiltering?: boolean;
+
   /**
    * indicates if the new release should be appended to the 'Fix Versions'
    * in jira tickets, or replace them
@@ -122,6 +128,7 @@ export interface Config {
    * @default true
    */
   appendFixVersion?: boolean;
+
   /**
    * indicates if a pre-existing jira release should be updated with a 
    * start date, release date and released status
@@ -129,6 +136,22 @@ export interface Config {
    * @default true
    */
   updateExistingRelease?: boolean;
+
+  /**
+   * Indicates whether to add release notes into the rich-text body of the Jira release.
+   * This is updated through a separate GraphQL call to Jira, and requires the
+   * `JIRA_CLOUD_ID` and `JIRA_ACTIVATION_ID` environment variables to be set.
+   *
+   * @default true
+   */
+  addReleaseNotes?: boolean;
+
+  /**
+   * The regex pattern to match issue keys, in release notes only.
+   *
+   * @default "[a-zA-Z][a-zA-Z0-9_]+-\d+"
+   */
+  releaseNotesIssueRegex?: string;
 }
 ```
 

@@ -133,22 +133,21 @@ export interface PluginConfig extends BaseConfig {
    *
    * @default true
    */
+  
   updateExistingRelease?: boolean;
   /**
    * Indicates whether to add release notes into the rich-text body of the Jira release.
-   * Currently this is done through a separate GraphQL call to Jira, requires the
-   * `versionAriTemplate` option to be set.
+   * This is updated through a separate GraphQL call to Jira, requires the
+   * `JIRA_CLOUD_ID` and `JIRA_ACTIVATION_ID` environment variables to be set.
    *
    * @default true
    */
   addReleaseNotes?: boolean;
 
   /**
-   * A lodash template for the version's ARI (Atlassian Resource Identifier).
-   * Must include the `{versionId}` placeholder.
-   * e.g. ari:cloud:jira:2f63fdc2-25a5-4c99-b400-87677baaa596:version/activation/b1344048-9d11-43bc-bf0f-cedfeff77163/{versionId}
+   * The regex pattern to match issue keys in release notes.
    *
-   * @default null
+   * @default "[a-zA-Z][a-zA-Z0-9_]+-\d+"
    */
-  versionAriTemplate?: string;
+  releaseNotesIssueRegex?: string;
 }

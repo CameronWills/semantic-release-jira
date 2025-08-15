@@ -113,14 +113,81 @@ export async function createOrUpdateVersion(
 export async function saveReleaseNotes(
   config: PluginConfig,
   context: GenerateNotesContext,
-  versionId: string
+  versionId: string,
 ): Promise<void> {
+  context.logger.info(`Adding release notes for Jira release: ${versionId}...`);
+  if (!context.env.JIRA_CLOUD_ID || !context.env.JIRA_ACTIVATION_ID) {
+    context.logger.warn(
+      "Failed to add release notes: missing JIRA_CLOUD_ID or JIRA_ACTIVATION_ID environment variables.",
+    );
+    return;
+  }
 
-  let versionAri = template(config.versionAriTemplate)({ versionId });
-  let content = markdownToAdf(context.nextRelease.notes);
+  if (config.dryRun) {
+    context.logger.info("dry-run: skipping release notes update");
+    return;
+  }
 
-  
+  const mutation = `
+    mutation UpdateVersionContent(
+      $input: JiraUpdateVersionRichTextSectionContentInput!
+    ) {
+      jira {
+        updateJiraVersionRichTextSectionContent(
+          input: $input
+        ) @optIn(to: "JiraUpdateVersionRichTextSectionContent") {
+          success
+          errors {
+            message
+          }
+        }
+      }
+    }
+  `;
 
+  const idTemplate = template(
+    "ari:cloud:jira:${cloudId}:version/activation/${activationId}/${versionId}",
+  );
+  const variables = {
+    input: {
+      id: idTemplate({
+        cloudId: context.env.JIRA_CLOUD_ID,
+        activationId: context.env.JIRA_ACTIVATION_ID,
+        versionId,
+      }),
+      content: markdownToAdf(context.nextRelease.notes),
+    },
+  };
+
+  try {
+    const response = await fetch("https://api.atlassian.com/graphql", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Basic ${context.env.JIRA_AUTH}`,
+      },
+      body: JSON.stringify({
+        query: mutation,
+        variables: variables,
+      }),
+    });
+
+    const result = await response.json();
+
+    if (result.data?.jira?.updateJiraVersionRichTextSectionContent?.success) {
+      context.logger.info(
+        `Successfully added release notes for Jira release: ${versionId}`,
+      );
+    } else {
+      const errors = result.data?.jira?.updateJiraVersionRichTextSectionContent
+        ?.errors || [{ message: JSON.stringify(result) }];
+      context.logger.warn(
+        `Failed to add release notes: ${errors.map((e: { message: string }) => e.message).join(", ")}`,
+      );
+    }
+  } catch (error) {
+    context.logger.warn(`Error adding release notes: ${error}`);
+  }
 }
 
 export async function editIssueFixVersions(
